@@ -27,18 +27,18 @@ export default function SuccessStories() {
         <span className="text-[10px] font-black bg-primary text-black px-2 py-0.5 rounded tracking-widest">VERIFIED</span>
       </div>
 
-      <div className="space-y-4 flex-grow overflow-y-auto pr-2" style={{ scrollbarWidth: 'none' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-grow" style={{ scrollbarWidth: 'none' }}>
         {SUCCESS_STORIES.map((story) => (
           <motion.div 
             key={story.id} 
-            className="rounded-[2rem] bg-zinc-900 border border-zinc-800 hover:border-primary transition-all group flex flex-col overflow-hidden"
-            whileHover={{ scale: 0.98 }}
+            className="rounded-[2rem] bg-zinc-900 border border-zinc-800 hover:border-primary transition-all group flex flex-col overflow-hidden h-full"
+            whileHover={{ scale: 1.02 }}
           >
             <div className="h-28 w-full overflow-hidden">
               <img 
                 src={story.imageUrl} 
                 alt={story.type} 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out scale-100 group-hover:scale-110"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -83,15 +83,17 @@ export default function SuccessStories() {
       </div>
 
       <div className="border-t border-zinc-800 pt-6">
-        <button 
-           className="w-full bg-white text-zinc-950 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-primary hover:text-black transition-all shadow-xl hover:shadow-primary/40"
+        <motion.button 
+           whileHover={{ scale: 1.05 }}
+           whileTap={{ scale: 0.95 }}
+           className="w-full bg-accent text-black py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all shadow-xl shadow-accent/20"
            onClick={() => {
               const el = document.getElementById('contact');
               if (el) el.scrollIntoView({ behavior: 'smooth' });
            }}
         >
           Begin Your Own Victory
-        </button>
+        </motion.button>
       </div>
     </div>
   );

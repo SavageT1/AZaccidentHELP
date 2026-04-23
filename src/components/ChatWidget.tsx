@@ -181,9 +181,9 @@ export default function ChatWidget() {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="w-14 h-14 bg-primary rounded-full flex items-center justify-center text-black shadow-2xl shadow-primary/40 relative"
+        className="w-11 h-11 bg-primary rounded-full flex items-center justify-center text-black shadow-2xl shadow-primary/40 relative"
       >
-        {isOpen ? <X size={28} /> : <MessageCircle size={28} />}
+        {isOpen ? <X size={20} /> : <MessageCircle size={20} />}
         {!isOpen && (
           <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 border-2 border-zinc-950 rounded-full" />
         )}

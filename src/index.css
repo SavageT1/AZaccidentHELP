@@ -11,6 +11,8 @@
   --color-zinc-100: #f4f4f5;
   --color-primary: #a3e635; /* Bright Lime Green */
   --color-primary-dark: #84cc16;
+  --color-accent: #00e5ff; /* Electric Blue */
+  --color-accent-dark: #00b8cc;
 }
 
 @layer base {
@@ -28,6 +30,10 @@
 
 .shadow-primary-glow {
   box-shadow: 0 0 20px -5px rgba(163, 230, 53, 0.3);
+}
+
+.shadow-accent-glow {
+  box-shadow: 0 0 25px -5px rgba(0, 229, 255, 0.4);
 }
 
 input[type="range"]::-webkit-slider-thumb {

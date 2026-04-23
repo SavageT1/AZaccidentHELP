@@ -130,7 +130,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: '3',
     title: 'What is the Statute of Limitations for Personal Injury in AZ?',
     excerpt: 'Time is ticking. Learn about the crucial deadlines you must meet to file your claim.',
-    date: 'Jan 20, 2024',
+    date: 'Jan 20, 2026',
     category: 'Legal FAQ',
     imageUrl: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800',
   },
