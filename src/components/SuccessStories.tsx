@@ -42,23 +42,19 @@ export default function SuccessStories() {
                 referrerPolicy="no-referrer"
               />
             </div>
-            <div className="p-5 flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center text-primary">
-                    {getIcon(story.icon)}
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-zinc-500 uppercase tracking-widest">{story.type}</div>
-                    <div className="text-lg font-black text-primary">{story.settlementAmount} RECOVERED</div>
-                  </div>
+            <div className="p-5 flex flex-col gap-4 text-center items-center">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 bg-zinc-800 rounded-xl flex items-center justify-center text-primary mb-1">
+                  {getIcon(story.icon)}
                 </div>
-                <Trophy size={20} className="text-zinc-700 group-hover:text-yellow-500 transition-colors" />
+                <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-[0.2em]">{story.type}</div>
+                <div className="text-2xl font-black text-primary leading-tight">{story.settlementAmount} RECOVERED</div>
+                <Trophy size={20} className="text-zinc-700 group-hover:text-yellow-500 transition-colors mt-1" />
               </div>
 
-              <div className="space-y-1">
-                <div className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">The Challenges</div>
-                <ul className="text-xs space-y-0.5">
+              <div className="space-y-2 w-full text-left bg-black/20 p-4 rounded-2xl border border-zinc-800">
+                <div className="text-[9px] font-black text-zinc-600 uppercase tracking-widest text-center mb-2">The Challenges</div>
+                <ul className="text-xs space-y-1">
                   {story.challenges.map((c, i) => (
                     <li key={i} className="flex gap-2 text-zinc-400">
                       <span className="text-primary">•</span> {c}
@@ -67,15 +63,15 @@ export default function SuccessStories() {
                 </ul>
               </div>
 
-              <div className="p-3 bg-zinc-800/50 rounded-2xl border border-zinc-700/50">
-                <div className="text-[10px] font-black text-white uppercase tracking-widest mb-1 italic">Client Testimonial</div>
-                <p className="text-xs text-zinc-400 font-medium leading-relaxed italic">"{story.testimonial}"</p>
-                <div className="text-[10px] font-bold text-primary mt-1">— {story.clientName}</div>
+              <div className="p-4 bg-zinc-800/30 rounded-2xl border border-zinc-700/30 w-full">
+                <div className="text-[9px] font-black text-white uppercase tracking-widest mb-2 italic opacity-60">Client Outcome</div>
+                <p className="text-xs text-zinc-400 font-medium leading-relaxed italic mb-2">"{story.testimonial}"</p>
+                <div className="text-[10px] font-bold text-primary">— {story.clientName}</div>
               </div>
 
-              <button className="flex items-center justify-between p-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition-colors group/btn">
-                <span className="text-xs font-bold uppercase tracking-widest">Case Resolution Detail</span>
-                <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+              <button className="w-full flex items-center justify-center gap-3 p-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition-colors group/btn">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300">Case Resolution Detail</span>
+                <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform text-primary" />
               </button>
             </div>
           </motion.div>
@@ -92,7 +88,7 @@ export default function SuccessStories() {
               if (el) el.scrollIntoView({ behavior: 'smooth' });
            }}
         >
-          Begin Your Own Victory
+          Begin Your Own Victory - More Info
         </motion.button>
       </div>
     </div>
