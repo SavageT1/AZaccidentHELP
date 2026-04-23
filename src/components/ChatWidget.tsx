@@ -83,32 +83,32 @@ export default function ChatWidget() {
             className="mb-4 w-[350px] sm:w-[400px] h-[500px] bg-zinc-950 border border-zinc-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
           >
             {/* Header */}
-            <div className="p-4 bg-primary text-black flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-black/10 rounded-xl flex items-center justify-center">
-                  <MessageCircle size={24} />
+            <div className="p-3 bg-primary text-black flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-9 h-9 bg-black/10 rounded-xl flex items-center justify-center">
+                  <MessageCircle size={20} />
                 </div>
                 <div>
-                  <div className="text-sm font-black uppercase tracking-tight">Live Help</div>
+                  <div className="text-xs font-black uppercase tracking-tight">Live Help</div>
                   <div className="flex items-center gap-1.5">
                     <div className={isBusinessHours ? "w-2 h-2 bg-green-600 rounded-full animate-pulse" : "w-2 h-2 bg-yellow-600 rounded-full"} />
-                    <span className="text-[10px] font-bold opacity-80">
-                      {isBusinessHours ? "Specialists Online" : "Currently Offline (Callback Mode)"}
+                    <span className="text-[9px] font-bold opacity-80">
+                      {isBusinessHours ? "Specialists Online" : "Currently Offline"}
                     </span>
                   </div>
                 </div>
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="p-2 hover:bg-black/10 rounded-lg transition-colors"
+                className="p-1.5 hover:bg-black/10 rounded-lg transition-colors"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             {/* Messages */}
             <div 
-              className="flex-grow overflow-y-auto p-4 space-y-4 scroll-smooth" 
+              className="flex-grow overflow-y-auto p-3 space-y-3 scroll-smooth" 
               ref={scrollRef}
               style={{ scrollbarWidth: 'thin' }}
             >
@@ -152,7 +152,7 @@ export default function ChatWidget() {
             </div>
 
             {/* Input */}
-            <div className="p-4 bg-zinc-900 border-t border-zinc-800">
+            <div className="p-3 bg-zinc-900 border-t border-zinc-800">
               <div className="flex gap-2">
                 <input 
                   type="text"
@@ -160,13 +160,13 @@ export default function ChatWidget() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                   placeholder="Type your question..."
-                  className="flex-grow bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-primary transition-colors text-white"
+                  className="flex-grow bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-primary transition-colors text-white"
                 />
                 <button 
                   onClick={handleSend}
-                  className="w-10 h-10 bg-primary text-black rounded-xl flex items-center justify-center hover:bg-primary-dark transition-colors"
+                  className="w-9 h-9 bg-primary text-black rounded-xl flex items-center justify-center hover:bg-primary-dark transition-colors"
                 >
-                  <Send size={18} />
+                  <Send size={16} />
                 </button>
               </div>
               <div className="mt-2 text-[8px] text-zinc-500 text-center uppercase tracking-widest font-black">

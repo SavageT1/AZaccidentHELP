@@ -53,7 +53,7 @@ export default function SettlementCalculator() {
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
   return (
-    <div className="flex flex-col gap-6 h-full text-zinc-950">
+    <div className="flex flex-col gap-5 h-full text-zinc-950">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-xl font-bold tracking-tight uppercase">Claim Value Estimator</h3>
@@ -72,7 +72,7 @@ export default function SettlementCalculator() {
         </button>
       </div>
 
-      <div className="space-y-4 flex-grow">
+      <div className="space-y-3 flex-grow">
         {/* Medical Bills */}
         <div className="space-y-2">
           <div className="flex justify-between text-[10px] font-bold uppercase text-zinc-400 tracking-wider">
@@ -133,7 +133,7 @@ export default function SettlementCalculator() {
         </div>
 
         {/* Estimate Display */}
-        <div className="p-4 bg-zinc-50 rounded-2xl border-2 border-dashed border-zinc-200">
+        <div className="p-3 bg-zinc-50 rounded-2xl border-2 border-dashed border-zinc-200">
            <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Estimated Range</div>
            <div className="text-3xl font-black text-primary">
              {formatCurrency(result.min)} - {formatCurrency(result.max)}*
@@ -141,7 +141,7 @@ export default function SettlementCalculator() {
         </div>
 
         {/* Likely Outcome Action */}
-        <div className="bg-zinc-900 rounded-2xl p-4 text-white flex items-center justify-between group cursor-pointer hover:bg-primary hover:text-black transition-colors">
+        <div className="bg-zinc-900 rounded-2xl p-3 text-white flex items-center justify-between group cursor-pointer hover:bg-primary hover:text-black transition-colors">
           <div>
             <div className="text-[8px] font-black uppercase tracking-widest opacity-50 mb-0.5">Likely Outcome</div>
             <div className="text-sm font-bold">

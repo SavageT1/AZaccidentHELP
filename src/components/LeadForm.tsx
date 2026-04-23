@@ -42,7 +42,7 @@ export default function LeadForm() {
            <label className="text-[10px] font-bold uppercase tracking-widest opacity-80 block mb-1">Full Name</label>
            <input 
               {...register("name", { required: true })}
-              className={`w-full px-4 py-3 rounded-xl bg-black/10 border border-black/20 transition-all outline-none font-semibold placeholder:text-black/40 focus:bg-white/20 ${
+              className={`w-full px-4 py-2.5 rounded-xl bg-black/10 border border-black/20 transition-all outline-none font-semibold placeholder:text-black/40 focus:bg-white/20 ${
                 errors.name ? "border-black/40" : ""
               }`}
               placeholder="John Doe"
@@ -53,7 +53,7 @@ export default function LeadForm() {
            <label className="text-[10px] font-bold uppercase tracking-widest opacity-80 block mb-1">Phone Number</label>
            <input 
               {...register("phone", { required: true })}
-              className={`w-full px-4 py-3 rounded-xl bg-black/10 border border-black/20 transition-all outline-none font-semibold placeholder:text-black/40 focus:bg-white/20 ${
+              className={`w-full px-4 py-2.5 rounded-xl bg-black/10 border border-black/20 transition-all outline-none font-semibold placeholder:text-black/40 focus:bg-white/20 ${
                 errors.phone ? "border-black/40" : ""
               }`}
               placeholder="(602) 555-0123"
@@ -64,7 +64,7 @@ export default function LeadForm() {
            <label className="text-[10px] font-bold uppercase tracking-widest opacity-80 block mb-1">Accident Type</label>
            <select 
               {...register("accidentType", { required: true })}
-              className="w-full px-4 py-3 rounded-xl bg-black/10 border border-black/20 transition-all outline-none font-semibold focus:bg-white/20 appearance-none cursor-pointer"
+              className="w-full px-4 py-2.5 rounded-xl bg-black/10 border border-black/20 transition-all outline-none font-semibold focus:bg-white/20 appearance-none cursor-pointer"
            >
                <option value="car" className="bg-zinc-900 text-white">Car Accident</option>
                <option value="motorcycle" className="bg-zinc-900 text-white">Motorcycle</option>
@@ -78,7 +78,7 @@ export default function LeadForm() {
            <textarea 
               {...register("message")}
               rows={2}
-              className="w-full px-4 py-3 rounded-xl bg-black/10 border border-black/20 transition-all outline-none font-semibold placeholder:text-black/40 focus:bg-white/20 resize-none text-sm"
+              className="w-full px-4 py-2.5 rounded-xl bg-black/10 border border-black/20 transition-all outline-none font-semibold placeholder:text-black/40 focus:bg-white/20 resize-none text-sm"
               placeholder="What happened?..."
            />
         </div>

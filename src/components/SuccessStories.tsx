@@ -34,7 +34,7 @@ export default function SuccessStories() {
             className="rounded-[2rem] bg-zinc-900 border border-zinc-800 hover:border-primary transition-all group flex flex-col overflow-hidden"
             whileHover={{ scale: 0.98 }}
           >
-            <div className="h-32 w-full overflow-hidden">
+            <div className="h-28 w-full overflow-hidden">
               <img 
                 src={story.imageUrl} 
                 alt={story.type} 
@@ -42,7 +42,7 @@ export default function SuccessStories() {
                 referrerPolicy="no-referrer"
               />
             </div>
-            <div className="p-6 flex flex-col gap-4">
+            <div className="p-5 flex flex-col gap-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-zinc-800 rounded-xl flex items-center justify-center text-primary">
@@ -56,9 +56,9 @@ export default function SuccessStories() {
                 <Trophy size={20} className="text-zinc-700 group-hover:text-yellow-500 transition-colors" />
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <div className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">The Challenges</div>
-                <ul className="text-xs space-y-1">
+                <ul className="text-xs space-y-0.5">
                   {story.challenges.map((c, i) => (
                     <li key={i} className="flex gap-2 text-zinc-400">
                       <span className="text-primary">•</span> {c}
@@ -67,13 +67,13 @@ export default function SuccessStories() {
                 </ul>
               </div>
 
-              <div className="p-4 bg-zinc-800/50 rounded-2xl border border-zinc-700/50">
+              <div className="p-3 bg-zinc-800/50 rounded-2xl border border-zinc-700/50">
                 <div className="text-[10px] font-black text-white uppercase tracking-widest mb-1 italic">Client Testimonial</div>
                 <p className="text-xs text-zinc-400 font-medium leading-relaxed italic">"{story.testimonial}"</p>
-                <div className="text-[10px] font-bold text-primary mt-2">— {story.clientName}</div>
+                <div className="text-[10px] font-bold text-primary mt-1">— {story.clientName}</div>
               </div>
 
-              <button className="flex items-center justify-between p-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition-colors group/btn">
+              <button className="flex items-center justify-between p-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 transition-colors group/btn">
                 <span className="text-xs font-bold uppercase tracking-widest">Case Resolution Detail</span>
                 <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
               </button>

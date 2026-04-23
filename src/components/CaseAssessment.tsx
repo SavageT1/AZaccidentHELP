@@ -36,7 +36,7 @@ export default function CaseAssessment() {
   };
 
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-[2rem] p-8 text-white h-full flex flex-col relative overflow-hidden">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-[2rem] p-6 text-white h-full flex flex-col relative overflow-hidden">
       <AnimatePresence mode="wait">
         {step === 'type' && (
           <motion.div
@@ -44,9 +44,9 @@ export default function CaseAssessment() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            className="space-y-6 flex-grow"
+            className="space-y-4 flex-grow"
           >
-            <div className="flex items-center gap-3 mb-8">
+            <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-black">
                 <Scale size={20} />
               </div>
@@ -85,7 +85,7 @@ export default function CaseAssessment() {
               <ChevronLeft size={14} /> Back
             </button>
             <h4 className="text-lg font-bold">When did the accident occur?</h4>
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-2.5">
               {['Within 48 hours', 'Past week', '1-6 months ago', 'Over 6 months ago'].map((d) => (
                 <button
                   key={d}
@@ -93,10 +93,10 @@ export default function CaseAssessment() {
                     setData({ ...data, date: d });
                     next('injuries');
                   }}
-                  className="w-full text-left p-4 rounded-2xl bg-zinc-800 border border-zinc-700 hover:border-primary transition-all flex items-center justify-between"
+                  className="w-full text-left p-3.5 rounded-2xl bg-zinc-800 border border-zinc-700 hover:border-primary transition-all flex items-center justify-between"
                 >
                   <span className="font-bold">{d}</span>
-                  <Calendar size={18} className="text-zinc-500" />
+                  <Calendar size={16} className="text-zinc-500" />
                 </button>
               ))}
             </div>
@@ -115,18 +115,18 @@ export default function CaseAssessment() {
               <ChevronLeft size={14} /> Back
             </button>
             <h4 className="text-lg font-bold">What injuries were sustained?</h4>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2.5">
               {['Head/Neck', 'Back/Spinal', 'Broken Bones', 'Internal/Other'].map((i) => (
                 <button
                   key={i}
                   onClick={() => toggleInjury(i)}
-                  className={`p-4 rounded-2xl border transition-all text-sm font-bold flex flex-col items-center gap-3 ${
+                  className={`p-3.5 rounded-2xl border transition-all text-sm font-bold flex flex-col items-center gap-2 ${
                     data.injuries.includes(i) 
                       ? "bg-primary border-primary text-black shadow-lg shadow-primary/40" 
                       : "bg-zinc-800 border-zinc-700 text-zinc-400"
                   }`}
                 >
-                  <Stethoscope size={20} />
+                  <Stethoscope size={18} />
                   {i}
                 </button>
               ))}
@@ -134,7 +134,7 @@ export default function CaseAssessment() {
             <button 
               onClick={() => next('insurance')}
               disabled={data.injuries.length === 0}
-              className="w-full bg-white text-zinc-950 py-4 rounded-2xl font-black uppercase text-xs tracking-widest disabled:opacity-30 mt-4"
+              className="w-full bg-white text-zinc-950 py-3.5 rounded-2xl font-black uppercase text-xs tracking-widest disabled:opacity-30 mt-3"
             >
               Continue Case Review
             </button>
@@ -159,7 +159,7 @@ export default function CaseAssessment() {
                   setData({ ...data, insuranceKnown: 'yes' });
                   next('results');
                 }}
-                className="flex-1 p-6 rounded-2xl bg-zinc-800 border border-zinc-700 hover:border-primary transition-all font-bold text-xl"
+                className="flex-1 p-5 rounded-2xl bg-zinc-800 border border-zinc-700 hover:border-primary transition-all font-bold text-xl"
               >
                 Yes
               </button>
@@ -168,7 +168,7 @@ export default function CaseAssessment() {
                   setData({ ...data, insuranceKnown: 'no' });
                   next('results');
                 }}
-                className="flex-1 p-6 rounded-2xl bg-zinc-800 border border-zinc-700 hover:border-primary transition-all font-bold text-xl"
+                className="flex-1 p-5 rounded-2xl bg-zinc-800 border border-zinc-700 hover:border-primary transition-all font-bold text-xl"
               >
                 No
               </button>
@@ -194,11 +194,11 @@ export default function CaseAssessment() {
               <p className="text-zinc-400 text-sm mb-6">Based on your {data.type} profile, your case requires immediate professional oversight.</p>
             </div>
 
-            <div className="bg-zinc-800 rounded-2xl p-4 border-l-4 border-primary">
+            <div className="bg-zinc-800 rounded-2xl p-3 border-l-4 border-primary">
                <div className="text-xs font-bold text-primary uppercase tracking-widest mb-2 flex items-center gap-2">
                  <AlertOctagon size={14} /> Recommended Actions
                </div>
-               <ul className="text-xs font-medium space-y-2 text-zinc-300">
+               <ul className="text-xs font-medium space-y-1.5 text-zinc-300">
                  <li className="flex gap-2"><CheckCircle2 className="text-primary flex-shrink-0" size={14} /> See a medical professional within 24hrs for {data.injuries.join(', ')} documentation.</li>
                  <li className="flex gap-2"><CheckCircle2 className="text-primary flex-shrink-0" size={14} /> Do NOT provide a recorded statement to insurance adjusters.</li>
                  <li className="flex gap-2"><CheckCircle2 className="text-primary flex-shrink-0" size={14} /> Secure dashcam or black-box data immediately.</li>
