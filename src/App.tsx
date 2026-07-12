@@ -1,335 +1,203 @@
-import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
-import { 
-  Car, 
-  Bike, 
-  Truck, 
-  MessageCircle, 
-  ShieldCheck, 
-  Scale, 
-  Star,
-  ChevronRight,
-  Menu,
-  X,
-  Phone,
-  Clock,
-  MapPin,
+import { motion } from 'motion/react';
+import {
   ArrowRight,
+  Bike,
+  Car,
   CheckCircle2,
-  Trophy,
-  AlertOctagon,
-  Gavel
+  Clock,
+  FileText,
+  Menu,
+  MessageCircle,
+  Phone,
+  ShieldCheck,
+  Truck,
+  UserRoundCheck,
+  X,
 } from 'lucide-react';
-import { BLOG_POSTS, TESTIMONIALS } from './constants';
-import { cn } from './lib/utils';
-import SettlementCalculator from './components/SettlementCalculator';
 import LeadForm from './components/LeadForm';
-import CaseAssessment from './components/CaseAssessment';
-import SuccessStories from './components/SuccessStories';
-import ChatWidget from './components/ChatWidget';
-import PracticeAreaDetail from './components/PracticeAreaDetail';
+import { trackEvent } from './lib/analytics';
 
-export type Page = 'home' | 'car' | 'bike' | 'truck' | 'injury';
+const PHONE_DISPLAY = '480-384-0398';
+const PHONE_HREF = 'tel:+14803840398';
+
+const practiceAreas = [
+  { title: 'Car Accidents', description: 'Rear-end, intersection, rideshare, uninsured-driver, and multi-vehicle collisions.', icon: Car },
+  { title: 'Motorcycle Accidents', description: 'Crashes involving visibility disputes, roadway hazards, and serious rider injuries.', icon: Bike },
+  { title: 'Commercial Trucks', description: 'Collisions involving delivery vehicles, tractor-trailers, and commercial insurance.', icon: Truck },
+  { title: 'Other Injuries', description: 'Pedestrian, bicycle, premises, wrongful-death, and other personal-injury matters.', icon: ShieldCheck },
+];
 
 export default function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [policyOpen, setPolicyOpen] = useState(false);
 
-  const scrollToSection = (id: string) => {
-    if (currentPage !== 'home') {
-      setCurrentPage('home');
-      // Wait for re-render before scrolling
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
-    } else {
-      const el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-    setIsMenuOpen(false);
+  const scrollToContact = (source: string) => {
+    trackEvent('cta_click', { cta_location: source, cta_type: 'contact_form' });
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    setMenuOpen(false);
   };
 
-  if (currentPage !== 'home') {
-    return <PracticeAreaDetail slug={currentPage} onBack={() => setCurrentPage('home')} />;
-  }
+  const trackPhone = (location: string) => {
+    trackEvent('phone_click', { click_location: location });
+  };
 
   return (
-    <div className="min-h-screen bg-zinc-950 font-sans text-zinc-100 p-3 sm:p-5 flex flex-col selection:bg-primary selection:text-black">
-      {/* Navigation */}
-      <nav className="flex justify-between items-center mb-5">
-        <div className="flex items-center gap-2 cursor-pointer group" onClick={() => setCurrentPage('home')}>
-          <div className="w-10 h-10 bg-primary flex items-center justify-center font-black text-black italic rounded-lg group-hover:rotate-6 transition-transform">AZ</div>
-          <span className="text-xl font-bold tracking-tight uppercase">AZ ACCIDENT HELP<span className="text-primary">.COM</span></span>
-        </div>
+    <div className="min-h-screen bg-zinc-950 font-sans text-zinc-100 selection:bg-primary selection:text-black">
+      <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/95 backdrop-blur">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+          <a href="#top" className="flex items-center gap-3" aria-label="AZ Accident Help home">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary font-black italic text-black">AZ</span>
+            <span className="text-lg font-black uppercase tracking-tight">AZ Accident Help<span className="text-primary">.com</span></span>
+          </a>
 
-        <div className="hidden md:flex items-center gap-6">
-          <div className="flex gap-4 mr-4 text-[10px] font-black uppercase tracking-widest text-zinc-500">
-            <button onClick={() => setCurrentPage('car')} className="hover:text-primary transition-colors">Car Accidents</button>
-            <button onClick={() => setCurrentPage('bike')} className="hover:text-primary transition-colors">Motorcycles</button>
-            <button onClick={() => setCurrentPage('truck')} className="hover:text-primary transition-colors">Commercial</button>
+          <div className="hidden items-center gap-7 md:flex">
+            <a href="#how-it-works" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white">How it works</a>
+            <a href="#accident-types" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white">Accident types</a>
+            <a href={PHONE_HREF} onClick={() => trackPhone('header')} className="font-black text-primary hover:text-white">{PHONE_DISPLAY}</a>
+            <button onClick={() => scrollToContact('header')} className="rounded-full bg-accent px-6 py-3 text-xs font-black uppercase tracking-widest text-black">Request a callback</button>
           </div>
-          <a href="tel:+14803840398" className="text-sm font-black text-primary hover:text-white">480-384-0398</a>
-          <button 
-            onClick={() => scrollToSection('contact')}
-            className="bg-accent hover:bg-accent-dark text-black px-6 py-2.5 rounded-full font-bold shadow-lg shadow-accent/20 transition-all hover:scale-105 active:scale-95 text-xs uppercase tracking-widest"
-          >
-            FREE CONSULTATION
+
+          <button className="rounded-lg p-2 text-zinc-300 md:hidden" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation">
+            {menuOpen ? <X /> : <Menu />}
           </button>
-        </div>
+        </nav>
 
-        <button className="md:hidden p-2 text-zinc-400" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </nav>
-
-      {/* Chat Widget */}
-      <ChatWidget />
-
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden bg-zinc-900 border border-zinc-800 rounded-3xl p-6 absolute top-20 left-4 right-4 z-50 shadow-2xl"
-          >
-            <div className="flex flex-col gap-4 text-center">
-              <button onClick={() => setCurrentPage('car')} className="text-lg font-bold p-2 text-primary">Car Accidents</button>
-              <button onClick={() => setCurrentPage('bike')} className="text-lg font-bold p-2 text-primary">Motorcycles</button>
-              <button onClick={() => setCurrentPage('truck')} className="text-lg font-bold p-2 text-primary">Commercial Trucks</button>
-              <div className="h-px bg-zinc-800 my-2" />
-              <button onClick={() => scrollToSection('assessment')} className="text-lg font-bold p-2 text-zinc-400 hover:text-white">Assess Case</button>
-              <button onClick={() => scrollToSection('calculator')} className="text-lg font-bold p-2 text-zinc-400 hover:text-white">Simulator</button>
-              <button onClick={() => scrollToSection('stories')} className="text-lg font-bold p-2 text-zinc-400 hover:text-white">Stories</button>
-              <button onClick={() => scrollToSection('contact')} className="bg-primary text-black py-4 rounded-xl font-bold">Free Evaluation</button>
+        {menuOpen && (
+          <div className="border-t border-zinc-800 bg-zinc-900 px-5 py-5 md:hidden">
+            <div className="flex flex-col gap-4">
+              <a href={PHONE_HREF} onClick={() => trackPhone('mobile_menu')} className="text-center text-xl font-black text-primary">Call {PHONE_DISPLAY}</a>
+              <button onClick={() => scrollToContact('mobile_menu')} className="rounded-xl bg-accent py-4 font-black uppercase text-black">Request a callback</button>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </header>
 
-      {/* Bento Grid Layout */}
-      <div className="grid grid-cols-12 gap-5 max-w-[1400px] mx-auto w-full">
-        
-        {/* Main Hero Card */}
-        <motion.div 
-          id="hero"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.005 }}
-          className="col-span-12 lg:col-span-8 bg-zinc-900 border border-zinc-800 rounded-[2rem] p-6 lg:p-10 relative overflow-hidden flex flex-col justify-center"
-        >
-          <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-            <Scale className="w-64 h-64 text-primary" />
-          </div>
-          <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-primary/20">
-              <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-              Free Arizona Accident Case Review
-            </div>
-            <h1 className="text-5xl md:text-[80px] font-black leading-[0.9] tracking-tight mb-5 uppercase">
-              INJURED IN AZ?<br/>
-              <span className="text-primary underline decoration-primary/30 decoration-8 underline-offset-8">WE FIGHT FOR YOU.</span>
-            </h1>
-            <p className="text-zinc-400 text-xl max-w-lg mb-8 font-medium leading-relaxed">
-              Get connected with Arizona personal injury help after a car, motorcycle, truck, or other serious accident. The review is free and confidential.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => scrollToSection('assessment')}
-              className="bg-accent text-black px-8 py-5 rounded-2xl font-black uppercase text-sm tracking-[0.2em] shadow-2xl shadow-accent/30 flex items-center gap-3 mb-10 group"
-            >
-              Start Free Case Review
-              <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </motion.button>
-            <a href="tel:+14803840398" className="inline-flex items-center gap-2 text-primary font-black text-lg mb-8 hover:text-white">
-              <Phone size={20} /> Call or text 480-384-0398
-            </a>
-            <div className="flex flex-wrap gap-4">
-              <div className="bg-zinc-800/50 backdrop-blur px-6 py-3 rounded-2xl border border-zinc-700/50 flex items-center gap-3 transition-colors hover:border-primary/50 group">
-                 <ShieldCheck className="text-primary group-hover:scale-110 transition-transform" size={24} />
-                 <div>
-                    <span className="text-[10px] block font-bold uppercase tracking-widest text-zinc-500">Total Recovered:</span>
-                    <span className="text-lg font-black text-white">$500M+</span>
-                 </div>
+      <main id="top">
+        <section className="relative overflow-hidden border-b border-zinc-800">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_25%,rgba(249,115,22,0.22),transparent_28%)]" />
+          <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-[1.2fr_0.8fr] lg:py-24">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col justify-center">
+              <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-black uppercase tracking-widest text-primary">
+                <Clock size={15} /> Arizona accident intake
               </div>
-              <div className="bg-zinc-800/50 backdrop-blur px-6 py-3 rounded-2xl border border-zinc-700/50 flex items-center gap-3 transition-colors hover:border-primary/50 group">
-                 <MapPin className="text-primary group-hover:scale-110 transition-transform" size={24} />
-                 <div>
-                    <span className="text-[10px] block font-bold uppercase tracking-widest text-zinc-500">Main Office:</span>
-                    <span className="text-lg font-black text-white">Scottsdale, AZ</span>
-                 </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Case Assessment Tool Card */}
-        <motion.div 
-          id="assessment"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.01 }}
-          transition={{ delay: 0.1 }}
-          className="col-span-12 lg:col-span-4"
-        >
-          <CaseAssessment />
-        </motion.div>
-
-        {/* Practice Specialties Box - NEW */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.005 }}
-          viewport={{ once: true }}
-          className="col-span-12 bg-white rounded-[2rem] p-8 shadow-2xl relative overflow-hidden text-zinc-950"
-        >
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="max-w-xl">
-              <h2 className="text-4xl font-black uppercase tracking-tight mb-2">Our Specialties</h2>
-              <p className="text-zinc-500 font-medium">Arizona's focused representation for high-impact collisions and catastrophic injuries.</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full md:w-auto">
-              {[
-                { label: 'Car Accidents', icon: <Car />, slug: 'car' as Page },
-                { label: 'Motorcycles', icon: <Bike />, slug: 'bike' as Page },
-                { label: 'Commercial Truck', icon: <Truck />, slug: 'truck' as Page },
-                { label: 'Severe Injury', icon: <AlertOctagon />, slug: 'injury' as Page },
-              ].map((item) => (
-                <motion.button
-                  key={item.label}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setCurrentPage(item.slug)}
-                  className="flex flex-col items-center justify-center p-6 rounded-3xl bg-zinc-50 border border-zinc-200 hover:border-primary transition-all group"
-                >
-                  <div className="p-3 bg-white rounded-2xl shadow-sm group-hover:bg-primary group-hover:text-black transition-colors mb-3">
-                    {item.icon}
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-center">{item.label}</span>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-          <div className="absolute top-0 right-0 p-12 opacity-[0.03] pointer-events-none">
-            <Gavel size={300} />
-          </div>
-        </motion.div>
-
-        {/* Claim Value Estimator Card */}
-        <motion.div 
-          id="calculator"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.01 }}
-          viewport={{ once: true }}
-          className="col-span-12 md:col-span-5 bg-primary rounded-[2rem] p-6 shadow-primary-glow relative"
-        >
-          <SettlementCalculator />
-        </motion.div>
-
-        {/* Quick Contact Card - Interactive Bubble */}
-        <div className="col-span-12 md:col-span-2 flex items-center justify-center relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.3, zIndex: 50 }}
-            viewport={{ once: true }}
-            className="w-28 h-28 md:w-32 md:h-32 bg-primary rounded-full flex flex-col items-center justify-center text-black shadow-primary-glow border-4 border-zinc-950 relative group cursor-pointer transition-shadow hover:shadow-2xl hover:shadow-primary/40"
-          >
-             <div className="text-center relative z-10 px-2 select-none">
-                <div className="w-8 h-8 bg-black/10 rounded-full flex items-center justify-center mx-auto mb-1">
-                   <Phone size={16} />
-                </div>
-                <h4 className="text-[8px] font-black uppercase tracking-widest opacity-60 mb-0.5 leading-none">Human Help</h4>
-                <a href="tel:+14803840398" className="text-[10px] font-black tracking-tighter block mb-2 px-1">480-384-0398</a>
-                <a
-                  href="tel:+14803840398"
-                  onClick={(e) => e.stopPropagation()}
-                  className="bg-accent text-black font-black px-3 py-1 rounded-full text-[7px] uppercase tracking-widest shadow-lg shadow-accent/20 active:scale-90 transition-transform"
-                >
-                  CALL NOW
+              <h1 className="mb-6 text-5xl font-black uppercase leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+                Injured in Arizona?<br /><span className="text-primary">Request a callback.</span>
+              </h1>
+              <p className="mb-8 max-w-2xl text-lg leading-relaxed text-zinc-300">
+                Tell us what happened. AZ Accident Help can share your request with a participating attorney or law firm that may contact you about a consultation.
+              </p>
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <button onClick={() => scrollToContact('hero')} className="inline-flex items-center justify-center gap-3 rounded-2xl bg-accent px-8 py-5 font-black uppercase tracking-wider text-black">
+                  Request my callback <ArrowRight size={20} />
+                </button>
+                <a href={PHONE_HREF} onClick={() => trackPhone('hero')} className="inline-flex items-center justify-center gap-3 rounded-2xl border border-zinc-700 px-8 py-5 font-black text-primary hover:border-primary">
+                  <Phone size={20} /> Call or text {PHONE_DISPLAY}
                 </a>
-             </div>
-          </motion.div>
-        </div>
+              </div>
+              <p className="mt-6 max-w-2xl text-xs leading-relaxed text-zinc-500">
+                AZ Accident Help is a legal marketing and intake service, not a law firm. We do not provide legal advice or determine the value or merits of a claim.
+              </p>
+            </motion.div>
 
-        {/* Lead Gen Form Card */}
-        <motion.div 
-          id="contact"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.01 }}
-          viewport={{ once: true }}
-          className="col-span-12 md:col-span-5 bg-primary rounded-[2rem] p-6 shadow-primary-glow relative"
-        >
-          <h2 className="text-2xl font-black mb-1 uppercase tracking-tight text-black">Free Arizona Case Evaluation</h2>
-          <p className="text-black/70 text-sm font-bold mb-4">No fee to submit. Call or text <a href="tel:+14803840398" className="underline">480-384-0398</a>.</p>
-          <LeadForm />
-          <div className="absolute bottom-4 right-8 opacity-20 pointer-events-none">
-            <MessageCircle size={100} className="text-white" />
+            <motion.div id="contact" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} className="rounded-[2rem] bg-primary p-6 shadow-primary-glow sm:p-8">
+              <h2 className="mb-2 text-3xl font-black uppercase tracking-tight text-black">Request a callback</h2>
+              <p className="mb-5 text-sm font-bold text-black/70">No fee to submit. A participating attorney or law firm may contact you.</p>
+              <LeadForm />
+            </motion.div>
           </div>
-        </motion.div>
+        </section>
 
-        {/* Resource Blog Card */}
-        <motion.div 
-          id="blog"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.005 }}
-          viewport={{ once: true }}
-          className="col-span-12 bg-zinc-900 border border-zinc-800 rounded-[2rem] p-8 group overflow-hidden relative"
-        >
-          <div className="flex justify-between items-start mb-8">
-            <div>
-              <h4 className="text-3xl font-black uppercase tracking-tight text-white underline decoration-primary decoration-4 underline-offset-8">Victory Strategies</h4>
-              <p className="text-sm font-bold text-zinc-400 uppercase tracking-[0.2em] mt-3">Protecting your rights across all of Arizona</p>
-            </div>
-            <span className="bg-primary text-black text-[12px] px-3 py-1 rounded font-black tracking-widest">2026 UPDATE</span>
+        <section id="how-it-works" className="mx-auto max-w-7xl px-5 py-16 lg:py-20">
+          <div className="mb-10 max-w-2xl">
+            <p className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-primary">What happens next</p>
+            <h2 className="text-4xl font-black uppercase tracking-tight sm:text-5xl">A clear three-step process</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-4 relative z-10">
-            {BLOG_POSTS.slice(0, 3).map((post) => (
-              <div key={post.id} className="flex flex-col gap-3 p-5 rounded-2xl bg-zinc-800/50 hover:bg-zinc-800 transition-colors cursor-pointer group/item border border-zinc-700/30">
-                <div className="text-[10px] font-black text-primary tracking-widest uppercase">{post.category}</div>
-                <div className="text-lg font-bold text-zinc-100 group-hover/item:text-primary transition-colors uppercase leading-tight">{post.title}</div>
-                <div className="flex items-center gap-2 text-xs font-bold text-zinc-500 group-hover/item:gap-3 transition-all">
-                  Read Analysis <ArrowRight size={14} className="text-primary" />
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              { icon: FileText, title: 'Share the basics', text: 'Provide your contact information, accident type, and a short description.' },
+              { icon: UserRoundCheck, title: 'Information is routed', text: 'Your request may be shared with a participating attorney or law firm.' },
+              { icon: MessageCircle, title: 'Receive a response', text: 'If a participating provider is available, they may contact you to discuss next steps.' },
+            ].map((step, index) => (
+              <div key={step.title} className="rounded-3xl border border-zinc-800 bg-zinc-900 p-7">
+                <div className="mb-5 flex items-center justify-between">
+                  <step.icon className="text-primary" size={32} />
+                  <span className="text-4xl font-black text-zinc-800">0{index + 1}</span>
                 </div>
+                <h3 className="mb-3 text-xl font-black uppercase">{step.title}</h3>
+                <p className="leading-relaxed text-zinc-400">{step.text}</p>
               </div>
             ))}
           </div>
-        </motion.div>
+        </section>
 
-        {/* Success Stories Card - Full Width Now */}
-        <motion.div 
-          id="stories"
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          whileHover={{ scale: 1.005 }}
-          viewport={{ once: true }}
-          className="col-span-12 bg-zinc-950 border border-zinc-800 rounded-[2rem] p-8 relative overflow-hidden"
-        >
-          <SuccessStories />
-          <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
-             <Trophy size={200} />
+        <section id="accident-types" className="border-y border-zinc-800 bg-zinc-900/60">
+          <div className="mx-auto max-w-7xl px-5 py-16 lg:py-20">
+            <div className="mb-10 max-w-3xl">
+              <p className="mb-3 text-xs font-black uppercase tracking-[0.25em] text-primary">Accident types</p>
+              <h2 className="mb-4 text-4xl font-black uppercase tracking-tight sm:text-5xl">Start with the details you know</h2>
+              <p className="text-lg text-zinc-400">You do not need to diagnose your legal situation before requesting contact.</p>
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {practiceAreas.map((area) => (
+                <button key={area.title} onClick={() => scrollToContact(`accident_type_${area.title}`)} className="rounded-3xl border border-zinc-800 bg-zinc-950 p-6 text-left transition hover:-translate-y-1 hover:border-primary">
+                  <area.icon className="mb-5 text-primary" size={32} />
+                  <h3 className="mb-3 text-lg font-black uppercase">{area.title}</h3>
+                  <p className="text-sm leading-relaxed text-zinc-400">{area.description}</p>
+                </button>
+              ))}
+            </div>
           </div>
-        </motion.div>
+        </section>
 
-      </div>
+        <section className="mx-auto max-w-7xl px-5 py-16 text-center lg:py-20">
+          <CheckCircle2 className="mx-auto mb-5 text-accent" size={44} />
+          <h2 className="mx-auto mb-5 max-w-3xl text-4xl font-black uppercase tracking-tight sm:text-5xl">Ready to request contact?</h2>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-zinc-400">Send the form or call directly. Submitting information does not create an attorney-client relationship.</p>
+          <button onClick={() => scrollToContact('bottom_cta')} className="rounded-2xl bg-accent px-8 py-5 font-black uppercase tracking-wider text-black">Request a callback</button>
+        </section>
+      </main>
 
-      {/* Footer Bar */}
-      <footer className="mt-8 mb-4 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-bold text-zinc-500 uppercase tracking-widest px-4">
-        <div className="text-center md:text-left">© 2026 AZ Accident Help. Not a law firm. Case management partner.</div>
-        <div className="flex gap-6">
-          <span className="hover:text-red-500 cursor-pointer transition-colors">Privacy Policy</span>
-          <span className="hover:text-red-500 cursor-pointer transition-colors">Terms of Service</span>
-          <span className="hover:text-red-500 cursor-pointer transition-colors">AZ Bar Compliance</span>
+      <footer className="border-t border-zinc-800 bg-black">
+        <div className="mx-auto max-w-7xl px-5 py-10">
+          <div className="mb-7 grid gap-6 md:grid-cols-[1fr_auto]">
+            <div>
+              <div className="mb-3 font-black uppercase">AZ Accident Help</div>
+              <p className="max-w-3xl text-xs leading-relaxed text-zinc-500">
+                AZ Accident Help is a privately owned legal marketing and intake service, not a law firm or lawyer-referral service. We do not provide legal advice, recommend a particular attorney, or determine the value or merits of a claim. Information submitted may be shared with participating attorneys or law firms that may contact you. Submission does not create an attorney-client relationship. Attorney participation may constitute paid advertising.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 text-sm font-bold md:text-right">
+              <a href={PHONE_HREF} onClick={() => trackPhone('footer')} className="text-primary">{PHONE_DISPLAY}</a>
+              <button onClick={() => setPolicyOpen(true)} className="text-left text-zinc-400 hover:text-white md:text-right">Privacy & Terms</button>
+            </div>
+          </div>
+          <div className="border-t border-zinc-900 pt-5 text-xs text-zinc-600">© 2026 AZ Accident Help. All rights reserved.</div>
         </div>
       </footer>
+
+      {policyOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" aria-label="Privacy and terms">
+          <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-3xl bg-white p-7 text-zinc-900 sm:p-10">
+            <div className="mb-6 flex items-start justify-between gap-4">
+              <div>
+                <h2 className="text-3xl font-black uppercase">Privacy & Terms</h2>
+                <p className="mt-2 text-sm text-zinc-500">Effective July 12, 2026</p>
+              </div>
+              <button onClick={() => setPolicyOpen(false)} className="rounded-full bg-zinc-100 p-2" aria-label="Close privacy policy"><X /></button>
+            </div>
+            <div className="space-y-6 text-sm leading-relaxed text-zinc-700">
+              <section><h3 className="mb-2 font-black uppercase text-zinc-950">Who we are</h3><p>AZ Accident Help is a legal marketing and intake service. It is not a law firm, does not provide legal advice, and does not establish an attorney-client relationship.</p></section>
+              <section><h3 className="mb-2 font-black uppercase text-zinc-950">Information we collect</h3><p>We may collect the information you submit, including your name, phone number, email address, accident type, and description, plus basic website analytics such as device, browser, pages viewed, referral source, and interactions.</p></section>
+              <section><h3 className="mb-2 font-black uppercase text-zinc-950">How information is used and shared</h3><p>We use submitted information to respond to your request, operate and improve the website, measure marketing performance, prevent abuse, and share your request with participating attorneys or law firms that may contact you. Those providers use information under their own privacy practices.</p></section>
+              <section><h3 className="mb-2 font-black uppercase text-zinc-950">Contact consent</h3><p>By submitting the form, you consent to calls, texts, and emails about your request from AZ Accident Help and participating attorneys or law firms, including through automated technology where permitted. Consent is not a condition of purchasing services. Message and data rates may apply. You may opt out of texts by replying STOP.</p></section>
+              <section><h3 className="mb-2 font-black uppercase text-zinc-950">No guarantee or legal relationship</h3><p>Submitting information does not guarantee that an attorney will accept or evaluate your matter, does not create an attorney-client relationship, and does not stop any legal deadline. Do not submit confidential information beyond what is needed for initial contact.</p></section>
+              <section><h3 className="mb-2 font-black uppercase text-zinc-950">Analytics and cookies</h3><p>We may use Google Analytics and similar tools to understand traffic and conversions. These tools may use cookies or comparable technologies. You can limit cookies through your browser settings.</p></section>
+              <section><h3 className="mb-2 font-black uppercase text-zinc-950">Contact</h3><p>Questions about this policy may be directed to {PHONE_DISPLAY}.</p></section>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

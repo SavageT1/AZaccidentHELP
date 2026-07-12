@@ -12,9 +12,9 @@ export default async function handler(request, response) {
   recent.push(now);
   attempts.set(ip, recent);
 
-  const { name, phone, email, accidentType, message = '', source = '', website = '' } = request.body || {};
+  const { name, phone, email, accidentType, message = '', source = '', website = '', consent = false } = request.body || {};
   if (website) return response.status(200).json({ ok: true });
-  if (!name || !phone || !email || !accidentType) return response.status(400).json({ error: 'Missing required fields' });
+  if (!name || !phone || !email || !accidentType || consent !== true) return response.status(400).json({ error: 'Missing required fields or consent' });
   if (!/^\S+@\S+\.\S+$/.test(email) || !/^\+?[\d\s().-]{10,}$/.test(phone)) {
     return response.status(400).json({ error: 'Invalid contact information' });
   }
@@ -41,7 +41,7 @@ export default async function handler(request, response) {
       source: 'AZAccidentHelp.com',
       pageUrl: source || 'https://azaccidenthelp.com/',
       submittedAt: new Date().toISOString(),
-      consent: true,
+      consent,
     }),
   });
 
