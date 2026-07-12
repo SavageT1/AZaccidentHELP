@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "TMPDIR=/private/tmp VITE_CACHE_DIR=/private/tmp/azaccidenthelp-vite vite build --configLoader native --outDir /private/tmp/azaccidenthelp-dist --emptyOutDir false",
+    "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit"

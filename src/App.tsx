@@ -71,7 +71,7 @@ export default function App() {
             <button onClick={() => setCurrentPage('bike')} className="hover:text-primary transition-colors">Motorcycles</button>
             <button onClick={() => setCurrentPage('truck')} className="hover:text-primary transition-colors">Commercial</button>
           </div>
-          <div className="text-sm font-medium text-zinc-400">Claims Won: <span className="text-zinc-100">15k+ Verified</span></div>
+          <a href="tel:+14803840398" className="text-sm font-black text-primary hover:text-white">480-384-0398</a>
           <button 
             onClick={() => scrollToSection('contact')}
             className="bg-accent hover:bg-accent-dark text-black px-6 py-2.5 rounded-full font-bold shadow-lg shadow-accent/20 transition-all hover:scale-105 active:scale-95 text-xs uppercase tracking-widest"
@@ -128,14 +128,14 @@ export default function App() {
           <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-widest mb-6 border border-primary/20">
               <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-              Arizona's Top Rated Recovery Team
+              Free Arizona Accident Case Review
             </div>
             <h1 className="text-5xl md:text-[80px] font-black leading-[0.9] tracking-tight mb-5 uppercase">
               INJURED IN AZ?<br/>
               <span className="text-primary underline decoration-primary/30 decoration-8 underline-offset-8">WE FIGHT FOR YOU.</span>
             </h1>
             <p className="text-zinc-400 text-xl max-w-lg mb-8 font-medium leading-relaxed">
-              We specialize in complex car, motorcycle, and commercial accidents. Serving all of Arizona, we fight for maximum recovery in every personal injury case.
+              Get connected with Arizona personal injury help after a car, motorcycle, truck, or other serious accident. The review is free and confidential.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -146,6 +146,9 @@ export default function App() {
               Start Free Case Review
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />
             </motion.button>
+            <a href="tel:+14803840398" className="inline-flex items-center gap-2 text-primary font-black text-lg mb-8 hover:text-white">
+              <Phone size={20} /> Call or text 480-384-0398
+            </a>
             <div className="flex flex-wrap gap-4">
               <div className="bg-zinc-800/50 backdrop-blur px-6 py-3 rounded-2xl border border-zinc-700/50 flex items-center gap-3 transition-colors hover:border-primary/50 group">
                  <ShieldCheck className="text-primary group-hover:scale-110 transition-transform" size={24} />
@@ -243,16 +246,14 @@ export default function App() {
                    <Phone size={16} />
                 </div>
                 <h4 className="text-[8px] font-black uppercase tracking-widest opacity-60 mb-0.5 leading-none">Human Help</h4>
-                <a href="tel:1800AZHELP" className="text-[10px] font-black tracking-tighter block mb-2 px-1">1-800-AZ-HELP</a>
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    scrollToSection('contact');
-                  }}
+                <a href="tel:+14803840398" className="text-[10px] font-black tracking-tighter block mb-2 px-1">480-384-0398</a>
+                <a
+                  href="tel:+14803840398"
+                  onClick={(e) => e.stopPropagation()}
                   className="bg-accent text-black font-black px-3 py-1 rounded-full text-[7px] uppercase tracking-widest shadow-lg shadow-accent/20 active:scale-90 transition-transform"
                 >
                   CALL NOW
-                </button>
+                </a>
              </div>
           </motion.div>
         </div>
@@ -266,7 +267,8 @@ export default function App() {
           viewport={{ once: true }}
           className="col-span-12 md:col-span-5 bg-primary rounded-[2rem] p-6 shadow-primary-glow relative"
         >
-          <h3 className="text-2xl font-black mb-4 uppercase tracking-tight text-black">Free Evaluation</h3>
+          <h2 className="text-2xl font-black mb-1 uppercase tracking-tight text-black">Free Arizona Case Evaluation</h2>
+          <p className="text-black/70 text-sm font-bold mb-4">No fee to submit. Call or text <a href="tel:+14803840398" className="underline">480-384-0398</a>.</p>
           <LeadForm />
           <div className="absolute bottom-4 right-8 opacity-20 pointer-events-none">
             <MessageCircle size={100} className="text-white" />
