@@ -5,6 +5,20 @@ const allowedOrigins = new Set([
   'https://www.azaccidenthelp.com',
 ]);
 
+const isAllowedOrigin = (origin: string) => {
+  if (!origin) return true;
+  if (allowedOrigins.has(origin)) return true;
+
+  try {
+    const { hostname, protocol } = new URL(origin);
+    return protocol === 'https:' &&
+      hostname.endsWith('.vercel.app') &&
+      (hostname === 'a-zaccident-help.vercel.app' || hostname.startsWith('a-zaccident-help-'));
+  } catch {
+    return false;
+  }
+};
+
 const clean = (value: unknown, max = 500) =>
   typeof value === 'string' ? value.trim().slice(0, max) : '';
 
@@ -17,7 +31,7 @@ export default async function handler(req: any, res: any) {
   }
 
   const origin = clean(req.headers.origin, 200);
-  if (origin && !allowedOrigins.has(origin) && !origin.includes('vercel.app')) {
+  if (!isAllowedOrigin(origin)) {
     return res.status(403).json({ ok: false, error: 'Invalid origin' });
   }
 
@@ -101,6 +115,18 @@ export default async function handler(req: any, res: any) {
       body: JSON.stringify(lead),
     });
     deliveries.sheets = sheets.ok;
+  }
+
+  if (process.env.GHL_WEBHOOK_URL) {
+    const ghl = await fetch(process.env.GHL_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.LEAD_WEBHOOK_SECRET ? { 'X-Webhook-Secret': process.env.LEAD_WEBHOOK_SECRET } : {}),
+      },
+      body: JSON.stringify(lead),
+    });
+    deliveries.ghl = ghl.ok;
   }
 
   if (!Object.keys(deliveries).length) {
